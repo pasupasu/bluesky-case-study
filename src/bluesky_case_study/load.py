@@ -2,7 +2,10 @@ import polars as pl
 
 from bluesky_case_study.paths import DATA_DIR
 
-FOLLOWER_COLS = ["src", "dst"]
+FOLLOWER_SCHEMA = {
+    "src": pl.Int64,
+    "dst": pl.Int64
+}
 
 INTERACTION_SCHEMA = {
     "src": pl.Int64,
@@ -18,7 +21,7 @@ def load_followers() -> pl.LazyFrame:
     return pl.scan_csv(
     DATA_DIR / "followers.csv",
     has_header= False,
-    new_columns = FOLLOWER_COLS
+    schema = FOLLOWER_SCHEMA
     )
 
 def load_interactions() -> pl.LazyFrame:
