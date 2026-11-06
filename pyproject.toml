@@ -1,0 +1,20 @@
+[project]
+name = "bluesky-case-study"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Gabriel Burr", email = "amythysthamster2@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=3.1.1",
+    "polars>=2.1.0",
+]
+
+[project.scripts]
+bluesky-case-study = "bluesky_case_study:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
