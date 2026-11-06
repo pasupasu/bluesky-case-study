@@ -1,13 +1,10 @@
+import numpy as np
 import polars as pl
 
-from bluesky_case_study.paths import DATA_DIR
 from bluesky_case_study import load
+from bluesky_case_study.paths import DATA_DIR
 
-WEIGHTS = {
-    "replies": 1.0,
-    "reposts": 1.0,
-    "quotes": 1.0
-}
+WEIGHTS = {"replies": 1.0, "reposts": 1.0, "quotes": 1.0}
 
 # Load follower dataframe, excluding self-follows and any repeated follows
 follows = load.load_followers().filter(pl.col("src") != pl.col("dst")).unique()
@@ -18,10 +15,10 @@ inter = load.load_interactions()
 # Turn a wide dataframe into a long one to get weights, each interaction kind gets a different weight row then collapsed
 counts = (
     inter.unpivot(
-        on = ["replied", "reposted", "quoted"],
-        index = "src",
-        variable_name = "kind",
-        value_name = "dst"
+        on=["replied", "reposted", "quoted"],
+        index="src",
+        variable_name="kind",
+        value_name="dst",
     )
     .drop_nulls("dst")
     .filter(pl.col("src") != pl.col("dst"))
@@ -34,9 +31,9 @@ counts = (
 )
 
 edges = (
-    follows.join(counts, on = ["src", "dst"], how = "left")
+    follows.join(counts, on=["src", "dst"], how="left")
     .with_columns(pl.col("replies", "reposts", "quotes").fill_null(0))
-    .with_columns(weight = sum(pl.col(k) * w for k, w in WEIGHTS.items()))
+    .with_columns(weight=np.log1p(sum(pl.col(k) * w for k, w in WEIGHTS.items())))
 )
 
 edges.sink_parquet(DATA_DIR / "weighted_edges.parquet")
