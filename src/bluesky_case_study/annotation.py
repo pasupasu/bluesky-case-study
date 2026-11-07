@@ -21,9 +21,19 @@ post, not on row order, polars version or what else is in the corpus.
     later only adds posts and never changes the ones you've already coded.
 
 Existing .xlsx files are never overwritten (they hold your labels) unless you
-pass --force. To grow a set, rename the old file, export again, and copy your
-labels across by post_id.
+pass --force. To grow or redraw a set without losing work, move the old files
+into a folder and pass it with --carry-over:
+
+    uv run python -m bluesky_case_study.annotation --carry-over data/annotation/archive/v1_with_reposts
+
+Labels from the old sheets are filled into the new ones by post_id (a label on
+a repost moves to its original post). Labeled posts that aren't in the new
+sample are written to {split}_extras.xlsx, so they can still serve as codebook
+examples, and the export stops if any post you've already seen would land in
+the test set.
 """
+
+from pathlib import Path
 
 import argparse
 import hashlib
@@ -105,7 +115,16 @@ def draw_sample(pooled: pl.DataFrame, split: str, per_tier: int) -> pl.DataFrame
     ).sort("rank")  # mixes the tiers, so the sheet order gives no hint of the tier
 
 
-def write_sheet(sample: pl.DataFrame, path) -> None:
+LABEL_COLUMNS = ["stance", "confidence", "notes"]
+
+
+def write_sheet(sample: pl.DataFrame, path, prefill: pl.DataFrame | None = None) -> None:
+    """Write a coding sheet. prefill (post_id + LABEL_COLUMNS) fills in old labels."""
+    if prefill is not None:
+        sample = sample.join(prefill, on="post_id", how="left")
+    else:
+        sample = sample.with_columns(pl.lit(None, pl.String).alias(c) for c in LABEL_COLUMNS)
+
     wb = xlsxwriter.Workbook(str(path))
     ws = wb.add_worksheet("posts")
     lists = wb.add_worksheet("stances")
@@ -126,13 +145,16 @@ def write_sheet(sample: pl.DataFrame, path) -> None:
     ws.set_column("F:F", 40, entry)
     ws.freeze_panes(1, 0)
 
-    for r, (post_id, text) in enumerate(
-        sample.select("post_id", "text").iter_rows(), start=1
+    for r, (post_id, text, *labels) in enumerate(
+        sample.select("post_id", "text", *LABEL_COLUMNS).iter_rows(), start=1
     ):
         ws.write_number(r, 0, r)
         # write_string so posts starting with "=" or containing URLs stay plain text
         ws.write_string(r, 1, str(post_id))
         ws.write_string(r, 2, _ILLEGAL_XLSX.sub("", text or ""))
+        for c, value in enumerate(labels, start=3):
+            if value is not None:
+                ws.write_string(r, c, str(value), entry)
 
     # Stance options live on their own tab (with spare rows) so you can add
     # categories in Excel and the dropdown picks them up.
@@ -182,32 +204,89 @@ KEY_COLUMNS = [
 ]
 
 
-def export(dev_per_tier: int = DEV_PER_TIER, test_per_tier: int = TEST_PER_TIER, force: bool = False) -> None:
+def _read_old_labels(folder: Path, split: str) -> tuple[pl.DataFrame, set[int]] | None:
+    """Labels from an older export, moved from reposts onto their originals.
+
+    Returns (labels, seen) where seen is every post_id shown in that sheet,
+    including the originals behind reposts, whether or not it was labeled.
+    """
+    if not (folder / f"{split}.xlsx").exists():
+        return None
+    old = load_labels(split, folder)
+    old = old.with_columns(
+        pl.coalesce("repost_from", "post_id").alias("target_id")
+    )
+    seen = set(old["post_id"]) | set(old["target_id"])
+    has_label = pl.any_horizontal(pl.col(c).is_not_null() for c in LABEL_COLUMNS)
+    labels = (
+        old.filter(has_label)
+        .select(pl.col("target_id").alias("post_id"), *LABEL_COLUMNS)
+        .unique("post_id", keep="first", maintain_order=True)
+    )
+    return labels, seen
+
+
+def export(
+    dev_per_tier: int = DEV_PER_TIER,
+    test_per_tier: int = TEST_PER_TIER,
+    force: bool = False,
+    carry_over: Path | None = None,
+) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     corpus = load_corpus().collect()
     pooled = assign_pools(corpus)
 
-    samples = {}
-    for split, per_tier in (("dev", dev_per_tier), ("test", test_per_tier)):
-        sample = draw_sample(pooled, split, per_tier)
-        samples[split] = sample
+    samples = {split: draw_sample(pooled, split, n)
+               for split, n in (("dev", dev_per_tier), ("test", test_per_tier))}
+    overlap = set(samples["dev"]["post_id"]) & set(samples["test"]["post_id"])
+    assert not overlap, f"dev and test overlap on {len(overlap)} posts"
+
+    old = {}
+    if carry_over is not None:
+        old = {s: r for s in ("dev", "test") if (r := _read_old_labels(carry_over, s))}
+        # Posts you've read while building the codebook must never be test items.
+        if "dev" in old:
+            leaked = old["dev"][1] & set(samples["test"]["post_id"])
+            if leaked:
+                raise SystemExit(
+                    f"stopped: {len(leaked)} post(s) from the old dev sheet would land "
+                    f"in the new test set: {sorted(leaked)}"
+                )
+
+    for split, sample in samples.items():
+        per_tier = dev_per_tier if split == "dev" else test_per_tier
         sheet = OUT_DIR / f"{split}.xlsx"
         if sheet.exists() and not force:
             print(f"skipped {sheet.name}: already exists (pass --force to overwrite your labels)")
             continue
-        write_sheet(sample, sheet)
+        prefill = old[split][0] if split in old else None
+        write_sheet(sample, sheet, prefill)
         sample.select(KEY_COLUMNS).write_parquet(OUT_DIR / f"{split}_key.parquet")
         _update_manifest(split, per_tier, sample, corpus.height)
         print(f"wrote {sheet.name} and {split}_key.parquet: {sample.height} posts")
 
-    overlap = set(samples["dev"]["post_id"]) & set(samples["test"]["post_id"])
-    assert not overlap, f"dev and test overlap on {len(overlap)} posts"
+        if prefill is not None:
+            placed = prefill.filter(pl.col("post_id").is_in(sample["post_id"].implode()))
+            extras = prefill.join(sample.select("post_id"), on="post_id", how="anti")
+            print(f"  carried over {placed.height} label(s) into {sheet.name}")
+            if extras.height:
+                # Labeled posts outside the new sample: keep them, readable, with text.
+                extra_rows = pooled.select("post_id", "text").join(
+                    extras.select("post_id"), on="post_id", how="semi"
+                )
+                write_sheet(extra_rows, OUT_DIR / f"{split}_extras.xlsx", extras)
+                missing = extras.height - extra_rows.height
+                print(
+                    f"  {extra_rows.height} labeled post(s) not in the new sample "
+                    f"-> {split}_extras.xlsx"
+                    + (f" ({missing} no longer in the corpus, dropped)" if missing else "")
+                )
 
 
-def load_labels(split: str) -> pl.DataFrame:
+def load_labels(split: str, folder: Path = OUT_DIR) -> pl.DataFrame:
     """Read your coded sheet and join the hidden key back on by post_id."""
     labels = pl.read_excel(
-        OUT_DIR / f"{split}.xlsx",
+        folder / f"{split}.xlsx",
         sheet_name="posts",
         schema_overrides={
             "post_id": pl.String,
@@ -216,7 +295,7 @@ def load_labels(split: str) -> pl.DataFrame:
             "notes": pl.String,
         },
     ).with_columns(pl.col("post_id").cast(pl.Int64))
-    key = pl.read_parquet(OUT_DIR / f"{split}_key.parquet")
+    key = pl.read_parquet(folder / f"{split}_key.parquet")
     return labels.join(key, on="post_id", how="left", validate="1:1")
 
 
@@ -225,8 +304,12 @@ def main() -> None:
     parser.add_argument("--dev-per-tier", type=int, default=DEV_PER_TIER)
     parser.add_argument("--test-per-tier", type=int, default=TEST_PER_TIER)
     parser.add_argument("--force", action="store_true", help="overwrite existing sheets")
+    parser.add_argument(
+        "--carry-over", type=Path, default=None,
+        help="folder with older dev/test sheets whose labels should be filled in",
+    )
     args = parser.parse_args()
-    export(args.dev_per_tier, args.test_per_tier, args.force)
+    export(args.dev_per_tier, args.test_per_tier, args.force, args.carry_over)
 
 
 if __name__ == "__main__":
