@@ -31,7 +31,7 @@ def load_interactions() -> pl.LazyFrame:
 
 
 def load_posts(test_mode: bool = False) -> pl.LazyFrame:
-    """All posts, from the Parquet files written by bluesky_case_study.posts."""
+    """All posts, from the Parquet files written by bluesky_case_study.posts, or a sample of 5000 depending on test mode."""
     path = DATA_DIR / "user_posts_test" if test_mode else DATA_DIR / "user_posts"
     return pl.scan_parquet(path / "*.parquet").filter(
         pl.col("text").is_not_null()
