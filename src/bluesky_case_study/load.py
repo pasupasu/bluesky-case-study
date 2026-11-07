@@ -30,6 +30,14 @@ def load_interactions() -> pl.LazyFrame:
     ).with_columns(pl.col("date").str.to_datetime("%Y%m%d%H%M", strict=True))
 
 
+def load_posts(test_mode: bool = False) -> pl.LazyFrame:
+    """All posts, from the Parquet files written by bluesky_case_study.posts."""
+    path = DATA_DIR / "user_posts_test" if test_mode else DATA_DIR / "user_posts"
+    return pl.scan_parquet(path / "*.parquet").filter(
+        pl.col("text").is_not_null()
+    )
+
+
 def load_weighted() -> pl.LazyFrame:
     return pl.scan_parquet(DATA_DIR / "weighted_edges.parquet")
 
