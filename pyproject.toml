@@ -8,6 +8,8 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "anthropic>=2.6.0",
+    "faiss-cpu>=1.15.1",
     "fastexcel>=0.21.0",
     "igraph>=1.0.0",
     "leidenalg>=0.12.0",
@@ -15,6 +17,8 @@ dependencies = [
     "numpy>=2.5.4",
     "pandas>=3.1.1",
     "polars>=2.1.0",
+    "sentence-transformers>=6.2.0",
+    "torch>=2.11.0",
     "xlsxwriter>=3.3.1",
 ]
 
@@ -24,3 +28,12 @@ bluesky-case-study = "bluesky_case_study:main"
 [build-system]
 requires = ["uv_build>=0.12.19,<0.13.0"]
 build-backend = "uv_build"
+
+# CUDA build of PyTorch for the GPU embedding step (the PyPI wheel is CPU-only on Windows).
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]

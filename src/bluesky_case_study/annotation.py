@@ -53,7 +53,7 @@ OUT_DIR = DATA_DIR / "annotation"
 # DO NOT TOUCH ONCE CODING STARTS
 SEED = "ip-annotation-v1"
 
-DEV_PER_TIER = 50  # 100 posts total
+DEV_PER_TIER = 100  # 200 posts total (was 50 until 2026-11-08; the first 50 per tier are unchanged)
 TEST_PER_TIER = 100  # 200 posts total
 
 # Starting categories for the dropdown.
@@ -116,14 +116,30 @@ def draw_sample(pooled: pl.DataFrame, split: str, per_tier: int) -> pl.DataFrame
 
 
 LABEL_COLUMNS = ["stance", "confidence", "notes"]
+SHEET_COLUMNS = ["row", "post_id", "text", *LABEL_COLUMNS]
 
 
-def write_sheet(sample: pl.DataFrame, path, prefill: pl.DataFrame | None = None) -> None:
-    """Write a coding sheet. prefill (post_id + LABEL_COLUMNS) fills in old labels."""
+def write_sheet(
+    sample: pl.DataFrame,
+    path,
+    prefill: pl.DataFrame | None = None,
+    stances: list[str] | None = None,
+    extra_tabs: dict[str, list[list]] | None = None,
+) -> None:
+    """Write a coding sheet.
+
+    prefill (post_id + LABEL_COLUMNS, plus any extra columns such as
+    suggested_stance) fills in old labels; extra columns go after notes.
+    stances overrides the dropdown options, and extra_tabs (name -> rows of
+    cell values) are copied in as extra worksheets, so a regrown sheet keeps
+    everything that was added to the old one in Excel.
+    """
     if prefill is not None:
         sample = sample.join(prefill, on="post_id", how="left")
     else:
         sample = sample.with_columns(pl.lit(None, pl.String).alias(c) for c in LABEL_COLUMNS)
+    extra_cols = [c for c in (prefill.columns if prefill is not None else [])
+                  if c != "post_id" and c not in LABEL_COLUMNS]
 
     wb = xlsxwriter.Workbook(str(path))
     ws = wb.add_worksheet("posts")
@@ -134,7 +150,7 @@ def write_sheet(sample: pl.DataFrame, path, prefill: pl.DataFrame | None = None)
     top = wb.add_format({"valign": "top"})
     entry = wb.add_format({"valign": "top", "bg_color": "#FFF8DC"})
 
-    columns = ["row", "post_id", "text", "stance", "confidence", "notes"]
+    columns = [*SHEET_COLUMNS, *extra_cols]
     for c, name in enumerate(columns):
         ws.write_string(0, c, name, header)
     ws.set_column("A:A", 5, top)
@@ -143,10 +159,12 @@ def write_sheet(sample: pl.DataFrame, path, prefill: pl.DataFrame | None = None)
     ws.set_column("D:D", 24, entry)
     ws.set_column("E:E", 11, entry)
     ws.set_column("F:F", 40, entry)
+    for i in range(len(extra_cols)):
+        ws.set_column(6 + i, 6 + i, 40, wrap)
     ws.freeze_panes(1, 0)
 
     for r, (post_id, text, *labels) in enumerate(
-        sample.select("post_id", "text", *LABEL_COLUMNS).iter_rows(), start=1
+        sample.select("post_id", "text", *LABEL_COLUMNS, *extra_cols).iter_rows(), start=1
     ):
         ws.write_number(r, 0, r)
         # write_string so posts starting with "=" or containing URLs stay plain text
@@ -154,14 +172,23 @@ def write_sheet(sample: pl.DataFrame, path, prefill: pl.DataFrame | None = None)
         ws.write_string(r, 2, _ILLEGAL_XLSX.sub("", text or ""))
         for c, value in enumerate(labels, start=3):
             if value is not None:
-                ws.write_string(r, c, str(value), entry)
+                ws.write_string(r, c, str(value), entry if c < 6 else wrap)
 
     # Stance options live on their own tab (with spare rows) so you can add
     # categories in Excel and the dropdown picks them up.
     lists.write_string(0, 0, "stance options (edit freely)", header)
-    for i, s in enumerate(STANCES, start=1):
+    for i, s in enumerate(stances or STANCES, start=1):
         lists.write_string(i, 0, s)
     lists.set_column("A:A", 30)
+
+    for name, rows in (extra_tabs or {}).items():
+        tab = wb.add_worksheet(name)
+        for r, row in enumerate(rows):
+            for c, value in enumerate(row):
+                if value is not None:
+                    tab.write_string(r, c, str(value), header if r == 0 else wrap)
+        tab.set_column(0, 0, 30)
+        tab.set_column(1, 1, 100)
 
     last = sample.height
     ws.data_validation(
@@ -204,26 +231,83 @@ KEY_COLUMNS = [
 ]
 
 
-def _read_old_labels(folder: Path, split: str) -> tuple[pl.DataFrame, set[int]] | None:
+def _read_old_labels(folder: Path, split: str) -> dict | None:
     """Labels from an older export, moved from reposts onto their originals.
 
-    Returns (labels, seen) where seen is every post_id shown in that sheet,
-    including the originals behind reposts, whether or not it was labeled.
+    Returns a dict with:
+        labels      post_id + LABEL_COLUMNS + any columns added to the sheet in Excel
+        seen        every post_id shown in that sheet, including the originals
+                    behind reposts, whether or not it was labeled
+        stances     the dropdown options on the old stances tab
+        extra_tabs  any other worksheets (e.g. review notes), as rows of values
     """
-    if not (folder / f"{split}.xlsx").exists():
+    path = folder / f"{split}.xlsx"
+    if not path.exists():
         return None
     old = load_labels(split, folder)
     old = old.with_columns(
         pl.coalesce("repost_from", "post_id").alias("target_id")
     )
     seen = set(old["post_id"]) | set(old["target_id"])
-    has_label = pl.any_horizontal(pl.col(c).is_not_null() for c in LABEL_COLUMNS)
+    added = [c for c in old.columns
+             if c not in SHEET_COLUMNS and c not in KEY_COLUMNS and c != "target_id"]
+    kept = [*LABEL_COLUMNS, *added]
+    has_label = pl.any_horizontal(pl.col(c).is_not_null() for c in kept)
     labels = (
         old.filter(has_label)
-        .select(pl.col("target_id").alias("post_id"), *LABEL_COLUMNS)
+        .select(pl.col("target_id").alias("post_id"), *[pl.col(c).cast(pl.String) for c in kept])
         .unique("post_id", keep="first", maintain_order=True)
     )
-    return labels, seen
+
+    tabs = _read_tabs(path)
+    stances = None
+    if len(tabs.get("stances", [])) > 1:
+        stances = [row[0] for row in tabs["stances"][1:] if row and row[0]]
+    extra_tabs = {name: rows for name, rows in tabs.items() if name not in ("posts", "stances")}
+    return {"labels": labels, "seen": seen, "stances": stances, "extra_tabs": extra_tabs}
+
+
+def _read_tabs(path: Path) -> dict[str, list[list[str | None]]]:
+    """Every worksheet as rows of cell text, read straight from the .xlsx XML.
+
+    Used for small side tabs only. (fastexcel skipped the last row of one of
+    them, so this doesn't rely on it.)
+    """
+    import zipfile
+    import xml.etree.ElementTree as ET
+
+    ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+          "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+          "p": "http://schemas.openxmlformats.org/package/2006/relationships"}
+    with zipfile.ZipFile(path) as z:
+        names = z.namelist()
+        shared = []
+        if "xl/sharedStrings.xml" in names:
+            for si in ET.fromstring(z.read("xl/sharedStrings.xml")).findall("m:si", ns):
+                shared.append("".join(t.text or "" for t in si.iter(f"{{{ns['m']}}}t")))
+        rels = {r.get("Id"): r.get("Target")
+                for r in ET.fromstring(z.read("xl/_rels/workbook.xml.rels")).findall("p:Relationship", ns)}
+        tabs = {}
+        for sheet in ET.fromstring(z.read("xl/workbook.xml")).find("m:sheets", ns):
+            target = rels[sheet.get(f"{{{ns['r']}}}id")].lstrip("/")
+            target = target if target.startswith("xl/") else f"xl/{target}"
+            rows = []
+            for row in ET.fromstring(z.read(target)).iter(f"{{{ns['m']}}}row"):
+                cells = {}
+                for c in row.findall("m:c", ns):
+                    col = re.match(r"[A-Z]+", c.get("r")).group()
+                    idx = 0
+                    for ch in col:
+                        idx = idx * 26 + ord(ch) - 64
+                    if c.get("t") == "inlineStr":
+                        value = "".join(t.text or "" for t in c.iter(f"{{{ns['m']}}}t"))
+                    else:
+                        v = c.find("m:v", ns)
+                        value = None if v is None else (shared[int(v.text)] if c.get("t") == "s" else v.text)
+                    cells[idx - 1] = value
+                rows.append([cells.get(i) for i in range(max(cells, default=-1) + 1)])
+            tabs[sheet.get("name")] = rows
+    return tabs
 
 
 def export(
@@ -246,7 +330,7 @@ def export(
         old = {s: r for s in ("dev", "test") if (r := _read_old_labels(carry_over, s))}
         # Posts you've read while building the codebook must never be test items.
         if "dev" in old:
-            leaked = old["dev"][1] & set(samples["test"]["post_id"])
+            leaked = old["dev"]["seen"] & set(samples["test"]["post_id"])
             if leaked:
                 raise SystemExit(
                     f"stopped: {len(leaked)} post(s) from the old dev sheet would land "
@@ -259,8 +343,11 @@ def export(
         if sheet.exists() and not force:
             print(f"skipped {sheet.name}: already exists (pass --force to overwrite your labels)")
             continue
-        prefill = old[split][0] if split in old else None
-        write_sheet(sample, sheet, prefill)
+        prev = old.get(split)
+        prefill = prev["labels"] if prev else None
+        write_sheet(sample, sheet, prefill,
+                    stances=prev["stances"] if prev else None,
+                    extra_tabs=prev["extra_tabs"] if prev else None)
         sample.select(KEY_COLUMNS).write_parquet(OUT_DIR / f"{split}_key.parquet")
         _update_manifest(split, per_tier, sample, corpus.height)
         print(f"wrote {sheet.name} and {split}_key.parquet: {sample.height} posts")
@@ -274,7 +361,8 @@ def export(
                 extra_rows = pooled.select("post_id", "text").join(
                     extras.select("post_id"), on="post_id", how="semi"
                 )
-                write_sheet(extra_rows, OUT_DIR / f"{split}_extras.xlsx", extras)
+                write_sheet(extra_rows, OUT_DIR / f"{split}_extras.xlsx",
+                            extras.select("post_id", *LABEL_COLUMNS))
                 missing = extras.height - extra_rows.height
                 print(
                     f"  {extra_rows.height} labeled post(s) not in the new sample "
