@@ -64,7 +64,8 @@ MODEL = "claude-haiku-5-5"
 SETTINGS = {"max_tokens": 2048, "output_config": {"effort": "low"}}
 # $ per million tokens: (input, output, cache read, cache write). Batches are half price.
 PRICES = (0.10, 0.50, 0.01, 0.125)
-BATCH_SIZE = 50_000  # requests per batch (the API allows up to 100k / 256 MB)
+BATCH_SIZE = 50_000  # max requests per batch (the API allows up to 100k)
+BATCH_MAX_BYTES = 200_000_000  # max upload per batch (the API allows 256 MB; keep headroom)
 
 # The codebook was frozen on 2026-11-08 after tuning on the 200-post dev set
 # (84% accuracy, kappa 0.79; per-post results in data/stance/eval_dev_frozen_<version>.parquet).
@@ -192,13 +193,31 @@ def _record(version: str, pid: int, body: dict, batch: bool = False) -> dict:
             "batch": batch, **body}
 
 
+def make_client(**kwargs):
+    """Anthropic client, with stray whitespace stripped from credential variables.
+
+    A key or token pasted with a trailing newline (e.g. set from a file) makes an
+    illegal HTTP header, and the request fails before it is sent.
+    """
+    import os
+
+    import anthropic
+
+    for name in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+        value = os.environ.get(name)
+        if value is not None and value != value.strip():
+            os.environ[name] = value.strip()
+            print(f"note: removed whitespace (e.g. a trailing newline) from {name}")
+    return anthropic.Anthropic(**kwargs)
+
+
 # -------------------------------------------------------- synchronous runs
 
 def run_sync(posts: pl.DataFrame, workers: int = 8, client=None) -> None:
     """Label posts (post_id, text) one request at a time. For small sets like dev/test."""
     import anthropic
 
-    client = client or anthropic.Anthropic(max_retries=5)
+    client = client or make_client(max_retries=5)
     version = prompt_version()
     system = system_prompt()
     cache = load_cache()
@@ -233,13 +252,32 @@ def _save_batches(batches: list[dict]) -> None:
     BATCHES_PATH.write_text(json.dumps(batches, indent=2))
 
 
+def _chunk_by_size(todo: list[tuple[int, str]], system: str):
+    """Split requests into batches under the API's size limits.
+
+    Every request repeats the whole codebook (~20 KB), so the 256 MB per-batch limit,
+    not the 100k request limit, is what binds: ~10k requests per batch.
+    """
+    chunk, size = [], 0
+    for pid, text in todo:
+        n = len(json.dumps({"custom_id": f"p{pid}", "params": request_params(text, system)},
+                           ensure_ascii=False).encode()) + 64  # + list/JSON overhead
+        if chunk and (size + n > BATCH_MAX_BYTES or len(chunk) >= BATCH_SIZE):
+            yield chunk
+            chunk, size = [], 0
+        chunk.append((pid, text))
+        size += n
+    if chunk:
+        yield chunk
+
+
 def submit(posts: pl.DataFrame, client=None) -> None:
     """Send uncached posts to the Message Batches API. Run `collect` later."""
     import anthropic
     from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
     from anthropic.types.messages.batch_create_params import Request
 
-    client = client or anthropic.Anthropic()
+    client = client or make_client()
     version = prompt_version()
     system = system_prompt()
     cache = load_cache()
@@ -252,10 +290,12 @@ def submit(posts: pl.DataFrame, client=None) -> None:
         (pid, t) for pid, t in posts.select("post_id", "text").rows()
         if pid not in pending and _key(version, pid) not in cache
     ]
-    print(f"{len(todo):,} post(s) to submit")
+    chunks = list(_chunk_by_size(todo, system))
+    print(f"{len(todo):,} post(s) to submit in {len(chunks)} batch(es)")
 
-    for start in range(0, len(todo), BATCH_SIZE):
-        chunk = todo[start : start + BATCH_SIZE]
+    # Each batch upload is up to ~200 MB, so allow a long timeout per request.
+    client = client.with_options(timeout=30 * 60) if hasattr(client, "with_options") else client
+    for i, chunk in enumerate(chunks, 1):
         batch = client.messages.batches.create(requests=[
             Request(custom_id=f"p{pid}",
                     params=MessageCreateParamsNonStreaming(**request_params(text, system)))
@@ -264,14 +304,14 @@ def submit(posts: pl.DataFrame, client=None) -> None:
         batches.append({"id": batch.id, "model": MODEL, "version": version,
                         "post_ids": [pid for pid, _ in chunk]})
         _save_batches(batches)  # save after each one so a crash doesn't lose ids
-        print(f"  submitted {batch.id} ({len(chunk):,} requests)")
+        print(f"  [{i}/{len(chunks)}] submitted {batch.id} ({len(chunk):,} requests)", flush=True)
 
 
 def collect(client=None) -> None:
     """Download finished batches into the cache. Safe to rerun."""
     import anthropic
 
-    client = client or anthropic.Anthropic()
+    client = client or make_client()
     batches = _load_batches()
     for b in batches:
         if b.get("collected"):
@@ -424,25 +464,51 @@ def write_pair_stances() -> pl.DataFrame:
     out.write_parquet(PAIR_STANCES_PATH)
     print(f"Wrote {PAIR_STANCES_PATH}: {len(out):,} pairs")
     print(out.select(
+        pl.col("same_side").mean().alias("same_side"),
         pl.col("same_stance").mean().alias("same_stance"),
         pl.col("uncertain").mean().alias("uncertain"),
         pl.col("stance_a").is_null().mean().alias("unlabelled"),
     ))
+    with pl.Config(tbl_rows=10):
+        print(out.group_by("side_pair").agg(
+            pl.len().alias("pairs"),
+            (~pl.col("uncertain")).mean().alias("share_conf_ge_2"),
+        ).sort("pairs", descending=True))
     return out
+
+
+# Side-level stance (see text/analysis_plan.md). Fixed before the corpus run on 2026-11-08.
+SIDES = {"pro_palestinian": "PAL", "pro_israeli": "ISR"}
+
+
+def _side(col: str) -> pl.Expr:
+    return (pl.when(pl.col(col).is_null()).then(pl.lit("missing"))
+            .otherwise(pl.col(col).replace_strict(SIDES, default="other", return_dtype=pl.String)))
 
 
 def match_pairs(pairs: pl.DataFrame, labels: pl.DataFrame | None = None) -> pl.DataFrame:
     """Add stance agreement to candidate pairs (columns post_a, post_b).
 
-    same_stance is True when both posts got the same label; uncertain is True
-    when either label is low-confidence (1) or missing.
+    side_a / side_b   PAL, ISR, other (any other label) or missing (no label)
+    same_side         both PAL or both ISR: the primary stance match (analysis plan)
+    side_pair         PAL-PAL, ISR-ISR, PAL-ISR, PAL-other, ISR-other, other-other
+                      (or ...-missing), order-free
+    same_stance       both posts got the same one of the seven labels (sensitivity check)
+    uncertain         either label has confidence 1 or is missing
     """
     labels = labels if labels is not None else pl.read_parquet(LABELS_PATH)
     lab = labels.select("post_id", "stance", "confidence", "needs_review")
     out = pairs.join(lab.rename(lambda c: f"{c}_a" if c != "post_id" else "post_a"), on="post_a", how="left")
     out = out.join(lab.rename(lambda c: f"{c}_b" if c != "post_id" else "post_b"), on="post_b", how="left")
+    order = ["PAL", "ISR", "other", "missing"]
+    out = out.with_columns(_side("stance_a").alias("side_a"), _side("stance_b").alias("side_b"))
+    first = (pl.col("side_a").replace_strict(order, list(range(4)), return_dtype=pl.Int8)
+             <= pl.col("side_b").replace_strict(order, list(range(4)), return_dtype=pl.Int8))
     return out.with_columns(
-        (pl.col("stance_a") == pl.col("stance_b")).alias("same_stance"),
+        ((pl.col("side_a") == pl.col("side_b")) & pl.col("side_a").is_in(["PAL", "ISR"])).alias("same_side"),
+        pl.when(first).then(pl.concat_str("side_a", pl.lit("-"), "side_b"))
+        .otherwise(pl.concat_str("side_b", pl.lit("-"), "side_a")).alias("side_pair"),
+        (pl.col("stance_a") == pl.col("stance_b")).fill_null(False).alias("same_stance"),
         ((pl.min_horizontal("confidence_a", "confidence_b") < 2)
          | pl.col("needs_review_a") | pl.col("needs_review_b")).fill_null(True).alias("uncertain"),
     )

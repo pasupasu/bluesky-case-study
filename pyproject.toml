@@ -18,6 +18,7 @@ dependencies = [
     "pandas>=3.1.1",
     "polars>=2.1.0",
     "sentence-transformers>=6.2.0",
+    "statsmodels>=0.15.0",
     "torch>=2.11.0",
     "xlsxwriter>=3.3.1",
 ]
