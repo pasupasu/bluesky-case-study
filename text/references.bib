@@ -1,0 +1,163 @@
+@book{Allport1979, address={Reading, Mass}, edition={Unabridged, 25th anniversary ed}, title={The nature of prejudice}, ISBN={9780201001785}, callNumber={BF575.P9 A38 1979}, publisher={Addison-Wesley Pub. Co}, author={Allport, Gordon W.}, year={1979} }
+@article{Cinelli2021,
+author = {Matteo Cinelli  and Gianmarco De Francisci Morales  and Alessandro Galeazzi  and Walter Quattrociocchi  and Michele Starnini },
+title = {The echo chamber effect on social media},
+journal = {Proceedings of the National Academy of Sciences},
+volume = {118},
+number = {9},
+pages = {e2023301118},
+year = {2021},
+doi = {10.1073/pnas.2023301118},
+URL = {https://www.pnas.org/doi/abs/10.1073/pnas.2023301118},
+eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.2023301118},
+abstract = {Social media may limit the exposure to diverse perspectives and favor the formation of groups of like-minded users framing and reinforcing a shared narrative, that is, echo chambers. However, the interaction paradigms among users and feed algorithms greatly vary across social media platforms. This paper explores the key differences between the main social media platforms and how they are likely to influence information spreading and echo chambers’ formation. We perform a comparative analysis of more than 100 million pieces of content concerning several controversial topics (e.g., gun control, vaccination, abortion) from Gab, Facebook, Reddit, and Twitter. We quantify echo chambers over social media by two main ingredients: 1) homophily in the interaction networks and 2) bias in the information diffusion toward like-minded peers. Our results show that the aggregation of users in homophilic clusters dominate online interactions on Facebook and Twitter. We conclude the paper by directly comparing news consumption on Facebook and Reddit, finding higher segregation on Facebook.}}
+
+@article{Bail2018, title={Exposure to opposing views on social media can increase political polarization}, volume={115}, ISSN={0027-8424, 1091-6490}, url={https://pnas.org/doi/full/10.1073/pnas.1804840115}, DOI={10.1073/pnas.1804840115}, abstractNote={Significance
+Social media sites are often blamed for exacerbating political polarization by creating “echo chambers” that prevent people from being exposed to information that contradicts their preexisting beliefs. We conducted a field experiment that offered a large group of Democrats and Republicans financial compensation to follow bots that retweeted messages by elected officials and opinion leaders with opposing political views. Republican participants expressed substantially more conservative views after following a liberal Twitter bot, whereas Democrats’ attitudes became slightly more liberal after following a conservative Twitter bot—although this effect was not statistically significant. Despite several limitations, this study has important implications for the emerging field of computational social science and ongoing efforts to reduce political polarization online., There is mounting concern that social media sites contribute to political polarization by creating “echo chambers” that insulate people from opposing views about current events. We surveyed a large sample of Democrats and Republicans who visit Twitter at least three times each week about a range of social policy issues. One week later, we randomly assigned respondents to a treatment condition in which they were offered financial incentives to follow a Twitter bot for 1 month that exposed them to messages from those with opposing political ideologies (e.g., elected officials, opinion leaders, media organizations, and nonprofit groups). Respondents were resurveyed at the end of the month to measure the effect of this treatment, and at regular intervals throughout the study period to monitor treatment compliance. We find that Republicans who followed a liberal Twitter bot became substantially more conservative posttreatment. Democrats exhibited slight increases in liberal attitudes after following a conservative Twitter bot, although these effects are not statistically significant. Notwithstanding important limitations of our study, these findings have significant implications for the interdisciplinary literature on political polarization and the emerging field of computational social science.}, number={37}, journal={Proceedings of the National Academy of Sciences}, author={Bail, Christopher A. and Argyle, Lisa P. and Brown, Taylor W. and Bumpus, John P. and Chen, Haohan and Hunzaker, M. B. Fallin and Lee, Jaemin and Mann, Marcus and Merhout, Friedolin and Volfovsky, Alexander}, year={2018}, month=sep, pages={9216–9221}, language={en} }
+
+@article{QuelleBovet2025, title={Bluesky: Network topology, polarization, and algorithmic curation}, volume={20}, ISSN={1932-6203}, url={https://dx.plos.org/10.1371/journal.pone.0318034}, DOI={10.1371/journal.pone.0318034}, abstractNote={Bluesky is a nascent “Twitter-like” and decentralized social media network with novel features and unprecedented data access. This paper provides a characterization of its interaction network, studying the political leaning, polarization, network structure, and algorithmic curation mechanisms of five million users. The dataset spans from the website’s first release in February of 2023 to May of 2024. We investigate the replies, likes, reposts, and follows layers of the Bluesky network. We find that all networks are characterized by heavy-tailed distributions, high clustering, and short connection paths, similar to other larger social networks. BlueSky introduced feeds—algorithmic content recommenders created for and by users. We analyze all feeds and find that while a large number of custom feeds have been created, users’ uptake of them appears to be limited. We analyze the hyperlinks shared by BlueSky’s users and find no evidence of polarization in terms of the political leaning of the news sources they share. They share predominantly left-center news sources and little to no links associated with questionable news sources. In contrast to the homogeneous political ideology, we find significant issues-based divergence by studying opinions related to the Israel-Palestine conflict. Two clear homophilic clusters emerge: Pro-Palestinian voices outnumber pro-Israeli users, and the proportion has increased. We conclude by claiming that Bluesky—for all its novel features—is very similar in its network structure to existing and larger social media sites and provides unprecedented research opportunities for social scientists, network scientists, and political scientists alike.}, number={2}, journal={PLOS ONE}, author={Quelle, Dorian and Bovet, Alexandre}, editor={Pierri, Francesco}, year={2025}, month=feb, pages={e0318034}, language={en} }
+
+@inproceedings{Reimers2019,
+    title = "Sentence-{BERT}: Sentence Embeddings using {S}iamese {BERT}-Networks",
+    author = "Reimers, Nils  and
+      Gurevych, Iryna",
+    editor = "Inui, Kentaro  and
+      Jiang, Jing  and
+      Ng, Vincent  and
+      Wan, Xiaojun",
+    booktitle = "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing ({EMNLP}-{IJCNLP})",
+    month = nov,
+    year = "2019",
+    address = "Hong Kong, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/D19-1410/",
+    doi = "10.18653/v1/D19-1410",
+    pages = "3982--3992",
+    abstract = "BERT (Devlin et al., 2018) and RoBERTa (Liu et al., 2019) has set a new state-of-the-art performance on sentence-pair regression tasks like semantic textual similarity (STS). However, it requires that both sentences are fed into the network, which causes a massive computational overhead: Finding the most similar pair in a collection of 10,000 sentences requires about 50 million inference computations ({\textasciitilde}65 hours) with BERT. The construction of BERT makes it unsuitable for semantic similarity search as well as for unsupervised tasks like clustering. In this publication, we present Sentence-BERT (SBERT), a modification of the pretrained BERT network that use siamese and triplet network structures to derive semantically meaningful sentence embeddings that can be compared using cosine-similarity. This reduces the effort for finding the most similar pair from 65 hours with BERT / RoBERTa to about 5 seconds with SBERT, while maintaining the accuracy from BERT. We evaluate SBERT and SRoBERTa on common STS tasks and transfer learning tasks, where it outperforms other state-of-the-art sentence embeddings methods."
+}
+
+@article{Traag2019,
+  author  = {Traag, Vincent A. and Waltman, Ludo and van Eck, Nees Jan},
+  title   = {From {Louvain} to {Leiden}: guaranteeing well-connected communities},
+  journal = {Scientific Reports},
+  volume  = {9},
+  pages   = {5233},
+  year    = {2019},
+  doi     = {10.1038/s41598-019-41695-z}
+}
+
+@article{Malkov2020,
+  author  = {Malkov, Yury A. and Yashunin, Dmitry A.},
+  title   = {Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume  = {42},
+  number  = {4},
+  pages   = {824--836},
+  year    = {2020},
+  doi     = {10.1109/TPAMI.2018.2889473}
+}
+
+@article{Johnson2021,
+  author  = {Johnson, Jeff and Douze, Matthijs and J{\'e}gou, Herv{\'e}},
+  title   = {Billion-scale similarity search with {GPUs}},
+  journal = {IEEE Transactions on Big Data},
+  volume  = {7},
+  number  = {3},
+  pages   = {535--547},
+  year    = {2021},
+  doi     = {10.1109/TBDATA.2019.2921572}
+}
+
+ @misc{FaillaRossetti2025, title={Bluesky Social Dataset}, rights={Bluesky ToS}, url={https://zenodo.org/doi/10.5281/zenodo.14669616}, DOI={10.5281/ZENODO.14669616}, abstractNote={Bluesky Social Dataset
+
+Pollution of online social spaces caused by rampaging d/misinformation is a growing societal concern. However, recent decisions to reduce access to social media APIs are causing a shortage of publicly available, recent, social media data, thus hindering the advancement of computational social science as a whole. We present a large, high-coverage dataset of social interactions and user-generated content from Bluesky Social to address this pressing issue.
+
+The dataset contains the complete post history of over 4M users (81% of all registered accounts), totaling 235M posts. We also make available social data covering follow, comment, repost, and quote interactions.
+
+ Since Bluesky allows users to create and bookmark feed generators (i.e., content recommendation algorithms), we also release the full output of several popular algorithms available on the platform, along with their “like” interactions and time of bookmarking.
+
+Dataset
+
+Here is a description of the dataset files.
+
+
+
+followers.csv.gz. This compressed file contains the anonymized follower edge list. Once decompressed, each row consists of two comma-separated integers  representing a directed following relation (i.e., user u follows user v).
+
+user_posts.tar.gz. This compressed folder contains data on the individual posts collected. Decompressing this file results in a collection of files, each containing the post of an anonymized user. Each post is stored as a JSON-formatted line.
+
+interactions.csv.gz. This compressed file contains the anonymized interactions edge list. Once decompressed, each row consists of six comma-separated integers representing a comment, repost, or quote interaction. These integers correspond to the following fields, in this order: user_id, replied_author, thread_root_author, reposted_author,quoted_author, and date.
+
+graphs.tar.gz. This compressed folder contains edge list files for the graphs emerging from reposts, quotes, and replies. Each interaction is timestamped. The folder also contains timestamped higher-order interactions emerging from discussion threads, each containing all users participating in a thread.
+
+feed_posts.tar.gz. This compressed folder contains posts that appear in 11 thematic feeds. Decompressing this folder results in 11 files containing posts from one feed each.  Posts are stored as a JSON-formatted line.  Fields are correspond to those in posts.tar.gz, except for those related to sentiment analysis (sent_label, sent_score), and reposts (repost_from, reposted_author);
+
+feed_bookmarks.csv. This file contains users who bookmarked any of the collected feeds.  Each record contains three comma-separated values: the feed name, user id, and timestamp.
+
+feed_post_likes.tar.gz. This compressed folder contains data on likes to posts appearing in the feeds, one file per feed. Each record in the files contains the following information, in this order: the id of the ``liker’’, the id of the post’s author, the id of the liked post,  and the like timestamp;
+
+scripts.tar.gz. A collection of Python scripts, including the ones originally used to crawl the data, and to perform experiments. These scripts are detailed in a document released within the folder.
+
+
+ 
+
+Citation
+
+If used for research purposes, please cite the following paper describing the dataset details:
+
+Andrea Failla and Giulio Rossetti. “I’m in the Bluesky Tonight: Insights from a Year’s Worth of Social Data.” PlosOne (2024)  https://doi.org/10.1371/journal.pone.0310330
+
+ 
+
+Right to Erasure (Right to be forgotten)
+
+
+
+Note: If your account was created after March 21st, 2024, or if you did not post on Bluesky before such date, no data about your account exists in the dataset. Before sending a data removal request, please make sure that you were active and posting on bluesky before March 21st, 2024.
+
+
+Users included in the Bluesky Social dataset have the right to opt-out and request the removal of their data, per GDPR provisions (Article 17). 
+
+We emphasize that the released data has been thoroughly pseudonymized in compliance with GDPR (Article 4(5)). Specifically, usernames and object identifiers (e.g., URIs) have been removed, and object timestamps have been coarsened to protect individual privacy further and minimize reidentification risk. Moreover, it should be noted that the dataset was created for scientific research purposes, thereby falling under the scenarios for which GDPR provides opt-out derogations (Article 17(3)(d) and Article 89).
+
+Nonetheless, if you wish to have your activities excluded from this dataset, please submit your request to blueskydatasetmoderation@gmail.com (with the subject "Removal request: [username]"). We will process your request within a reasonable timeframe - updates will occur monthly, if necessary, and access to previous versions will be restricted.
+
+ 
+
+Acknowledgments:
+
+This work is supported by :
+
+
+
+the European Union – Horizon 2020 Program under the scheme “INFRAIA-01-2018-2019 – Integrating Activities for Advanced Communities”, Grant Agreement n.871042, “SoBigData++: European Integrated Infrastructure for Social Mining and Big Data Analytics” (http://www.sobigdata.eu); 
+
+SoBigData.it which receives funding from the European Union – NextGenerationEU – National Recovery and Resilience Plan (Piano Nazionale di Ripresa e Resilienza, PNRR) – Project: “SoBigData.it – Strengthening the Italian RI for Social Mining and Big Data Analytics” – Prot. IR0000013 – Avviso n. 3264 del 28/12/2021;
+
+EU NextGenerationEU programme under the funding schemes PNRR-PE-AI FAIR (Future Artificial Intelligence Research).}, publisher={Zenodo}, author={Failla, Andrea and Rossetti, Giulio}, year={2025}, month=jan }
+
+@article{FaillaRossetti2024,
+  author  = {Failla, Andrea and Rossetti, Giulio},
+  title   = {``{I'm} in the {Bluesky} tonight'': Insights from a year worth of social data},
+  journal = {PLOS ONE},
+  volume  = {19},
+  number  = {11},
+  pages   = {e0310330},
+  year    = {2024},
+  doi     = {10.1371/journal.pone.0310330}
+}
+
+@book{Baudrillard_1993, address={London and New York}, title={The transparency of evil: essays on extreme phenomena}, ISBN={9780860913870}, callNumber={BJ1402 .B3813 1993}, publisher={Verso}, author={Baudrillard, Jean}, year={1993}, language={eng} }
+
+@article{Balietti2021,
+author = {Stefano Balietti  and Lise Getoor  and Daniel G. Goldstein and Duncan J. Watts},
+title = {Reducing opinion polarization: Effects of exposure to similar people with differing political views},
+journal = {Proceedings of the National Academy of Sciences},
+volume = {118},
+number = {52},
+pages = {e2112552118},
+year = {2021},
+doi = {10.1073/pnas.2112552118},
+URL = {https://www.pnas.org/doi/abs/10.1073/pnas.2112552118},
+eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.2112552118},
+abstract = {In a large-scale, preregistered experiment on informal political communication, we algorithmically matched participants, varying two dimensions: 1) the degree of incidental similarity on nonpolitical features; and 2) their stance agreement on a contentious political topic. Matched participants were first shown a computer-generated social media profile of their match highlighting all the shared nonpolitical features; then, they read a short, personal, but argumentative, essay written by their match about the reduction of inequality via redistribution of wealth by the government. We show that support for redistribution increased and polarization decreased for participants with both mild and strong views, regardless of their political leaning. We further show that feeling close to the match is associated with an 86\% increase in the probability of assimilation of political views. Our analysis also uncovers an asymmetry: Interacting with someone with opposite views greatly reduced feelings of closeness; however, interacting with someone with consistent views only moderately increased them. By extending previous work about the effects of incidental similarity and shared identity on affect into the domain of political opinion change, our results bear real-world implications for the (re)-design of social media platforms. Because many people prefer to keep politics outside of their social networks, encouraging cross-cutting political communication based on nonpolitical commonalities is a potential solution for fostering consensus on potentially divisive and partisan topics.}}

@@ -1,0 +1,686 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{Allport1979}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=fc0d2d667a92a5817be98057a42d6dd6}{%
+           family={Allport},
+           familyi={A\bibinitperiod},
+           given={Gordon\bibnamedelima W.},
+           giveni={G\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Reading, Mass}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley Pub. Co}%
+      }
+      \strng{namehash}{fc0d2d667a92a5817be98057a42d6dd6}
+      \strng{fullhash}{fc0d2d667a92a5817be98057a42d6dd6}
+      \strng{fullhashraw}{fc0d2d667a92a5817be98057a42d6dd6}
+      \strng{bibnamehash}{fc0d2d667a92a5817be98057a42d6dd6}
+      \strng{authorbibnamehash}{fc0d2d667a92a5817be98057a42d6dd6}
+      \strng{authornamehash}{fc0d2d667a92a5817be98057a42d6dd6}
+      \strng{authorfullhash}{fc0d2d667a92a5817be98057a42d6dd6}
+      \strng{authorfullhashraw}{fc0d2d667a92a5817be98057a42d6dd6}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Unabridged, 25th anniversary ed}
+      \field{isbn}{9780201001785}
+      \field{title}{The nature of prejudice}
+      \field{year}{1979}
+    \endentry
+    \entry{Bail2018}{article}{}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=47526fc1b7d909a8b8b705ffa6e2c09b}{%
+           family={Bail},
+           familyi={B\bibinitperiod},
+           given={Christopher\bibnamedelima A.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0a9f2664192dc7787298765ed812cd79}{%
+           family={Argyle},
+           familyi={A\bibinitperiod},
+           given={Lisa\bibnamedelima P.},
+           giveni={L\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2f72c346f1148c9f51b24f9aa6d23efc}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Taylor\bibnamedelima W.},
+           giveni={T\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4ebcaed3402908be71145106a85ce987}{%
+           family={Bumpus},
+           familyi={B\bibinitperiod},
+           given={John\bibnamedelima P.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4c1e52ab8b68a53a874b9a8612bd981b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Haohan},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f040ae871438971acbd83c4d5c78671a}{%
+           family={Hunzaker},
+           familyi={H\bibinitperiod},
+           given={M.\bibnamedelimi B.\bibnamedelimi Fallin},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=552d44f38ad01afa6b5edb874e2bd956}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Jaemin},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c061859ce433386e6e5c56360a48d94}{%
+           family={Mann},
+           familyi={M\bibinitperiod},
+           given={Marcus},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05ba89f6918432817bcfdfa4ce29b3c5}{%
+           family={Merhout},
+           familyi={M\bibinitperiod},
+           given={Friedolin},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32f985746191d1b95ac58eccba2ab9d1}{%
+           family={Volfovsky},
+           familyi={V\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{f608bf8ad03a25cba5ba295268575ec6}
+      \strng{fullhash}{457218725b2458ad9422959729f0b22a}
+      \strng{fullhashraw}{457218725b2458ad9422959729f0b22a}
+      \strng{bibnamehash}{f608bf8ad03a25cba5ba295268575ec6}
+      \strng{authorbibnamehash}{f608bf8ad03a25cba5ba295268575ec6}
+      \strng{authornamehash}{f608bf8ad03a25cba5ba295268575ec6}
+      \strng{authorfullhash}{457218725b2458ad9422959729f0b22a}
+      \strng{authorfullhashraw}{457218725b2458ad9422959729f0b22a}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0027-8424, 1091-6490}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{month}{9}
+      \field{number}{37}
+      \field{title}{Exposure to opposing views on social media can increase political polarization}
+      \field{volume}{115}
+      \field{year}{2018}
+      \field{pages}{9216\bibrangedash 9221}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1073/pnas.1804840115
+      \endverb
+      \verb{urlraw}
+      \verb https://pnas.org/doi/full/10.1073/pnas.1804840115
+      \endverb
+      \verb{url}
+      \verb https://pnas.org/doi/full/10.1073/pnas.1804840115
+      \endverb
+    \endentry
+    \entry{Balietti2021}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=1395a6cf56fbd76cc8ef13da85585eb6}{%
+           family={Balietti},
+           familyi={B\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=88e86bf57e4d0841ba9010d52469237c}{%
+           family={Getoor},
+           familyi={G\bibinitperiod},
+           given={Lise},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=64d5164b2225ee07b35f9d6d4827ae66}{%
+           family={Goldstein},
+           familyi={G\bibinitperiod},
+           given={Daniel\bibnamedelima G.},
+           giveni={D\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8749174d8ea73cb9cc7eda222618b353}{%
+           family={Watts},
+           familyi={W\bibinitperiod},
+           given={Duncan\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{251bd0779cde65930c73f519a15b907b}
+      \strng{fullhash}{036d7e3895ea1460d76ce66458b47af0}
+      \strng{fullhashraw}{036d7e3895ea1460d76ce66458b47af0}
+      \strng{bibnamehash}{251bd0779cde65930c73f519a15b907b}
+      \strng{authorbibnamehash}{251bd0779cde65930c73f519a15b907b}
+      \strng{authornamehash}{251bd0779cde65930c73f519a15b907b}
+      \strng{authorfullhash}{036d7e3895ea1460d76ce66458b47af0}
+      \strng{authorfullhashraw}{036d7e3895ea1460d76ce66458b47af0}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In a large-scale, preregistered experiment on informal political communication, we algorithmically matched participants, varying two dimensions: 1) the degree of incidental similarity on nonpolitical features; and 2) their stance agreement on a contentious political topic. Matched participants were first shown a computer-generated social media profile of their match highlighting all the shared nonpolitical features; then, they read a short, personal, but argumentative, essay written by their match about the reduction of inequality via redistribution of wealth by the government. We show that support for redistribution increased and polarization decreased for participants with both mild and strong views, regardless of their political leaning. We further show that feeling close to the match is associated with an 86\% increase in the probability of assimilation of political views. Our analysis also uncovers an asymmetry: Interacting with someone with opposite views greatly reduced feelings of closeness; however, interacting with someone with consistent views only moderately increased them. By extending previous work about the effects of incidental similarity and shared identity on affect into the domain of political opinion change, our results bear real-world implications for the (re)-design of social media platforms. Because many people prefer to keep politics outside of their social networks, encouraging cross-cutting political communication based on nonpolitical commonalities is a potential solution for fostering consensus on potentially divisive and partisan topics.}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{number}{52}
+      \field{title}{Reducing opinion polarization: Effects of exposure to similar people with differing political views}
+      \field{volume}{118}
+      \field{year}{2021}
+      \field{pages}{e2112552118}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1073/pnas.2112552118
+      \endverb
+      \verb{eprint}
+      \verb https://www.pnas.org/doi/pdf/10.1073/pnas.2112552118
+      \endverb
+      \verb{urlraw}
+      \verb https://www.pnas.org/doi/abs/10.1073/pnas.2112552118
+      \endverb
+      \verb{url}
+      \verb https://www.pnas.org/doi/abs/10.1073/pnas.2112552118
+      \endverb
+    \endentry
+    \entry{Baudrillard_1993}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d3678024febce6c9a32d9b8bc9cea570}{%
+           family={Baudrillard},
+           familyi={B\bibinitperiod},
+           given={Jean},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {eng}%
+      }
+      \list{location}{2}{%
+        {London}%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Verso}%
+      }
+      \strng{namehash}{d3678024febce6c9a32d9b8bc9cea570}
+      \strng{fullhash}{d3678024febce6c9a32d9b8bc9cea570}
+      \strng{fullhashraw}{d3678024febce6c9a32d9b8bc9cea570}
+      \strng{bibnamehash}{d3678024febce6c9a32d9b8bc9cea570}
+      \strng{authorbibnamehash}{d3678024febce6c9a32d9b8bc9cea570}
+      \strng{authornamehash}{d3678024febce6c9a32d9b8bc9cea570}
+      \strng{authorfullhash}{d3678024febce6c9a32d9b8bc9cea570}
+      \strng{authorfullhashraw}{d3678024febce6c9a32d9b8bc9cea570}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9780860913870}
+      \field{title}{The transparency of evil: essays on extreme phenomena}
+      \field{year}{1993}
+    \endentry
+    \entry{Cinelli2021}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=0c417b7b68e9cbe5b0ca9e55ed05f69b}{%
+           family={Cinelli},
+           familyi={C\bibinitperiod},
+           given={Matteo},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ee9ef85d5f4f3e921f3e700bdea4e743}{%
+           family={Morales},
+           familyi={M\bibinitperiod},
+           given={Gianmarco\bibnamedelimb De\bibnamedelima Francisci},
+           giveni={G\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=025d0807da22a4ca518368ae9f482619}{%
+           family={Galeazzi},
+           familyi={G\bibinitperiod},
+           given={Alessandro},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5e983e0a577fa17cd50abe418badad90}{%
+           family={Quattrociocchi},
+           familyi={Q\bibinitperiod},
+           given={Walter},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4ca59da3a48f4f08c8146e5aa6dfab83}{%
+           family={Starnini},
+           familyi={S\bibinitperiod},
+           given={Michele},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e59fe1a341a8f2f745d59d76c2170c60}
+      \strng{fullhash}{b3414822664a16278fbe2c6aecd06168}
+      \strng{fullhashraw}{b3414822664a16278fbe2c6aecd06168}
+      \strng{bibnamehash}{e59fe1a341a8f2f745d59d76c2170c60}
+      \strng{authorbibnamehash}{e59fe1a341a8f2f745d59d76c2170c60}
+      \strng{authornamehash}{e59fe1a341a8f2f745d59d76c2170c60}
+      \strng{authorfullhash}{b3414822664a16278fbe2c6aecd06168}
+      \strng{authorfullhashraw}{b3414822664a16278fbe2c6aecd06168}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Social media may limit the exposure to diverse perspectives and favor the formation of groups of like-minded users framing and reinforcing a shared narrative, that is, echo chambers. However, the interaction paradigms among users and feed algorithms greatly vary across social media platforms. This paper explores the key differences between the main social media platforms and how they are likely to influence information spreading and echo chambers’ formation. We perform a comparative analysis of more than 100 million pieces of content concerning several controversial topics (e.g., gun control, vaccination, abortion) from Gab, Facebook, Reddit, and Twitter. We quantify echo chambers over social media by two main ingredients: 1) homophily in the interaction networks and 2) bias in the information diffusion toward like-minded peers. Our results show that the aggregation of users in homophilic clusters dominate online interactions on Facebook and Twitter. We conclude the paper by directly comparing news consumption on Facebook and Reddit, finding higher segregation on Facebook.}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{number}{9}
+      \field{title}{The echo chamber effect on social media}
+      \field{volume}{118}
+      \field{year}{2021}
+      \field{pages}{e2023301118}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1073/pnas.2023301118
+      \endverb
+      \verb{eprint}
+      \verb https://www.pnas.org/doi/pdf/10.1073/pnas.2023301118
+      \endverb
+      \verb{urlraw}
+      \verb https://www.pnas.org/doi/abs/10.1073/pnas.2023301118
+      \endverb
+      \verb{url}
+      \verb https://www.pnas.org/doi/abs/10.1073/pnas.2023301118
+      \endverb
+    \endentry
+    \entry{FaillaRossetti2024}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=8d6ba6752e4fd4899cbbe9c508b278a6}{%
+           family={Failla},
+           familyi={F\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=739b0986c92653739a7bf42740ee4069}{%
+           family={Rossetti},
+           familyi={R\bibinitperiod},
+           given={Giulio},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{fullhash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{fullhashraw}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{bibnamehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authorbibnamehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authornamehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authorfullhash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authorfullhashraw}{5301fd405b498d55f0141ca2a72a82a6}
+      \field{extraname}{1}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PLOS ONE}
+      \field{number}{11}
+      \field{title}{``{I'm} in the {Bluesky} tonight'': Insights from a year worth of social data}
+      \field{volume}{19}
+      \field{year}{2024}
+      \field{pages}{e0310330}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1371/journal.pone.0310330
+      \endverb
+    \endentry
+    \entry{FaillaRossetti2025}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=8d6ba6752e4fd4899cbbe9c508b278a6}{%
+           family={Failla},
+           familyi={F\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=739b0986c92653739a7bf42740ee4069}{%
+           family={Rossetti},
+           familyi={R\bibinitperiod},
+           given={Giulio},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Zenodo}%
+      }
+      \strng{namehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{fullhash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{fullhashraw}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{bibnamehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authorbibnamehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authornamehash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authorfullhash}{5301fd405b498d55f0141ca2a72a82a6}
+      \strng{authorfullhashraw}{5301fd405b498d55f0141ca2a72a82a6}
+      \field{extraname}{2}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{1}
+      \field{title}{Bluesky Social Dataset}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.5281/ZENODO.14669616
+      \endverb
+      \verb{urlraw}
+      \verb https://zenodo.org/doi/10.5281/zenodo.14669616
+      \endverb
+      \verb{url}
+      \verb https://zenodo.org/doi/10.5281/zenodo.14669616
+      \endverb
+    \endentry
+    \entry{Johnson2021}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=1805e103501075ef0b21851b4259f4a3}{%
+           family={Johnson},
+           familyi={J\bibinitperiod},
+           given={Jeff},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e9190eb3cfa416148f38314a0698d592}{%
+           family={Douze},
+           familyi={D\bibinitperiod},
+           given={Matthijs},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a2329be98a372037fcb95334bdc0c720}{%
+           family={Jégou},
+           familyi={J\bibinitperiod},
+           given={Hervé},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{56312ad5556c436281266d9cb1d0863a}
+      \strng{fullhash}{56312ad5556c436281266d9cb1d0863a}
+      \strng{fullhashraw}{56312ad5556c436281266d9cb1d0863a}
+      \strng{bibnamehash}{56312ad5556c436281266d9cb1d0863a}
+      \strng{authorbibnamehash}{56312ad5556c436281266d9cb1d0863a}
+      \strng{authornamehash}{56312ad5556c436281266d9cb1d0863a}
+      \strng{authorfullhash}{56312ad5556c436281266d9cb1d0863a}
+      \strng{authorfullhashraw}{56312ad5556c436281266d9cb1d0863a}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Big Data}
+      \field{number}{3}
+      \field{title}{Billion-scale similarity search with {GPUs}}
+      \field{volume}{7}
+      \field{year}{2021}
+      \field{pages}{535\bibrangedash 547}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/TBDATA.2019.2921572
+      \endverb
+    \endentry
+    \entry{Malkov2020}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=96e8143ae71d7e0eb2f753fa408e660f}{%
+           family={Malkov},
+           familyi={M\bibinitperiod},
+           given={Yury\bibnamedelima A.},
+           giveni={Y\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ec648d7c1ff53d26dae0abb796fc9358}{%
+           family={Yashunin},
+           familyi={Y\bibinitperiod},
+           given={Dmitry\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \strng{fullhash}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \strng{fullhashraw}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \strng{bibnamehash}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \strng{authorbibnamehash}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \strng{authornamehash}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \strng{authorfullhash}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \strng{authorfullhashraw}{0e8d79aa35e393ae8abe3b2c4a884d9d}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+      \field{number}{4}
+      \field{title}{Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs}
+      \field{volume}{42}
+      \field{year}{2020}
+      \field{pages}{824\bibrangedash 836}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/TPAMI.2018.2889473
+      \endverb
+    \endentry
+    \entry{QuelleBovet2025}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=563d5a62d7735e4a1e18c4a6b78100a1}{%
+           family={Quelle},
+           familyi={Q\bibinitperiod},
+           given={Dorian},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ac0c191dca7abe95069f070e346a58ae}{%
+           family={Bovet},
+           familyi={B\bibinitperiod},
+           given={Alexandre},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=208306a6c1a159d121c5a0448e0d1f93}{%
+           family={Pierri},
+           familyi={P\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{fullhash}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{fullhashraw}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{bibnamehash}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{authorbibnamehash}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{authornamehash}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{authorfullhash}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{authorfullhashraw}{dc3fd6164915285e221d1a01f62fdae3}
+      \strng{editorbibnamehash}{208306a6c1a159d121c5a0448e0d1f93}
+      \strng{editornamehash}{208306a6c1a159d121c5a0448e0d1f93}
+      \strng{editorfullhash}{208306a6c1a159d121c5a0448e0d1f93}
+      \strng{editorfullhashraw}{208306a6c1a159d121c5a0448e0d1f93}
+      \field{sortinit}{Q}
+      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1932-6203}
+      \field{journaltitle}{PLOS ONE}
+      \field{month}{2}
+      \field{number}{2}
+      \field{title}{Bluesky: Network topology, polarization, and algorithmic curation}
+      \field{volume}{20}
+      \field{year}{2025}
+      \field{pages}{e0318034}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1371/journal.pone.0318034
+      \endverb
+      \verb{urlraw}
+      \verb https://dx.plos.org/10.1371/journal.pone.0318034
+      \endverb
+      \verb{url}
+      \verb https://dx.plos.org/10.1371/journal.pone.0318034
+      \endverb
+    \endentry
+    \entry{Reimers2019}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=da9947b27b0d1c4c912e2b391426d443}{%
+           family={Reimers},
+           familyi={R\bibinitperiod},
+           given={Nils},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ea70b44be1920f6e8c379706bc7d047a}{%
+           family={Gurevych},
+           familyi={G\bibinitperiod},
+           given={Iryna},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{4}{}{%
+        {{hash=8db8ce939f6707d15a65c68fb7eb7fce}{%
+           family={Inui},
+           familyi={I\bibinitperiod},
+           given={Kentaro},
+           giveni={K\bibinitperiod}}}%
+        {{hash=78f8ffda028131a2ad3f19fb3e42cdb7}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod}}}%
+        {{hash=800a361562c5521177148c8fa518b0da}{%
+           family={Ng},
+           familyi={N\bibinitperiod},
+           given={Vincent},
+           giveni={V\bibinitperiod}}}%
+        {{hash=099b49eba881fb48d8a736fb9873c0e6}{%
+           family={Wan},
+           familyi={W\bibinitperiod},
+           given={Xiaojun},
+           giveni={X\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Hong Kong, China}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computational Linguistics}%
+      }
+      \strng{namehash}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{fullhash}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{fullhashraw}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{bibnamehash}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{authorbibnamehash}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{authornamehash}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{authorfullhash}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{authorfullhashraw}{2466af6376c9c5e3658dcc6692351f3e}
+      \strng{editorbibnamehash}{50a493d0885b78a76247a8faab26ce57}
+      \strng{editornamehash}{50a493d0885b78a76247a8faab26ce57}
+      \strng{editorfullhash}{6f401db5289f8ba6e23209eef52e0ad3}
+      \strng{editorfullhashraw}{6f401db5289f8ba6e23209eef52e0ad3}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{BERT (Devlin et al., 2018) and RoBERTa (Liu et al., 2019) has set a new state-of-the-art performance on sentence-pair regression tasks like semantic textual similarity (STS). However, it requires that both sentences are fed into the network, which causes a massive computational overhead: Finding the most similar pair in a collection of 10,000 sentences requires about 50 million inference computations ({\textasciitilde}65 hours) with BERT. The construction of BERT makes it unsuitable for semantic similarity search as well as for unsupervised tasks like clustering. In this publication, we present Sentence-BERT (SBERT), a modification of the pretrained BERT network that use siamese and triplet network structures to derive semantically meaningful sentence embeddings that can be compared using cosine-similarity. This reduces the effort for finding the most similar pair from 65 hours with BERT / RoBERTa to about 5 seconds with SBERT, while maintaining the accuracy from BERT. We evaluate SBERT and SRoBERTa on common STS tasks and transfer learning tasks, where it outperforms other state-of-the-art sentence embeddings methods.}
+      \field{booktitle}{Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing ({EMNLP}-{IJCNLP})}
+      \field{month}{11}
+      \field{title}{Sentence-{BERT}: Sentence Embeddings using {S}iamese {BERT}-Networks}
+      \field{year}{2019}
+      \field{pages}{3982\bibrangedash 3992}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.18653/v1/D19-1410
+      \endverb
+      \verb{urlraw}
+      \verb https://aclanthology.org/D19-1410/
+      \endverb
+      \verb{url}
+      \verb https://aclanthology.org/D19-1410/
+      \endverb
+    \endentry
+    \entry{Traag2019}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=18f2a50c77e449afe5f4860879107330}{%
+           family={Traag},
+           familyi={T\bibinitperiod},
+           given={Vincent\bibnamedelima A.},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=783af1eb97144feb275a9c50368af326}{%
+           family={Waltman},
+           familyi={W\bibinitperiod},
+           given={Ludo},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=994b93c88bd25e51c7ed58e11eb69f12}{%
+           family={Eck},
+           familyi={E\bibinitperiod},
+           given={Nees\bibnamedelima Jan},
+           giveni={N\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0,
+           prefix={van},
+           prefixi={v\bibinitperiod},
+           prefixun=0}}%
+      }
+      \strng{namehash}{51239f66f14dc1517d07e635bcfc4e09}
+      \strng{fullhash}{51239f66f14dc1517d07e635bcfc4e09}
+      \strng{fullhashraw}{51239f66f14dc1517d07e635bcfc4e09}
+      \strng{bibnamehash}{51239f66f14dc1517d07e635bcfc4e09}
+      \strng{authorbibnamehash}{51239f66f14dc1517d07e635bcfc4e09}
+      \strng{authornamehash}{51239f66f14dc1517d07e635bcfc4e09}
+      \strng{authorfullhash}{51239f66f14dc1517d07e635bcfc4e09}
+      \strng{authorfullhashraw}{51239f66f14dc1517d07e635bcfc4e09}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Scientific Reports}
+      \field{title}{From {Louvain} to {Leiden}: guaranteeing well-connected communities}
+      \field{volume}{9}
+      \field{year}{2019}
+      \field{pages}{5233}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41598-019-41695-z
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
