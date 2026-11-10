@@ -61,21 +61,60 @@ No classifier for replies or quotes. Reception is measured from what the data re
 
 ### Model (fixed 2026-11-08, `reception model`)
 
-**Unit.** A contrast is one content pair seen from one community C. It has an in-group post *i* (author in C) and an out-group post *o* (author not in C). $y_i$ and $y_o$ count the engagement from members of C.
+**Unit.** A contrast $r$ is one content pair seen from one community $C$. It has an in-group post $i$ (author in $C$) and an out-group post $o$ (author not in $C$).
 
-**Model: Poisson with a fixed effect for each contrast.** For post *p* in contrast *r*:
+**Notation.**
 
-  log E[y_p] = α_r + β·ingroup_p + γ·log(1 + followers_C(p)) + δ·log(1 + followers_all(p)) + λ·age_p
+| Symbol | Meaning |
+|---|---|
+| $y_{rp}$ | engagement with post $p \in \{i, o\}$ from members of $C$ (reposts, replies, quotes or negative-tone replies, one outcome at a time) |
+| $\text{in}_p$ | 1 for the in-group post, 0 for the out-group post |
+| $F^{C}_p$ | the author's followers who are members of $C$ (exposure within the community) |
+| $F^{\text{all}}_p$ | the author's followers overall |
+| $a_p$ | post age: time from the post's date to the end of collection, in 30-day units |
+| $\Delta_r x = x_i - x_o$ | in-group minus out-group difference within contrast $r$ |
 
-- α_r absorbs everything the two posts share: content, topic, stance, and when the pair was found.
-- Conditioning on the total *y_i + y_o* removes α_r. What remains is a binomial model of the in-group share:
+**Model: Poisson with a fixed effect for each contrast.**
 
-  y_i | y_i + y_o ~ Binomial(y_i + y_o, π),  logit π = β + γ·Δlog(1 + followers_C) + δ·Δlog(1 + followers_all) + λ·Δage
+$$
+\log \mathbb{E}[y_{rp}] = \alpha_r + \beta\,\text{in}_p + \gamma \log\!\left(1 + F^{C}_p\right) + \delta \log\!\left(1 + F^{\text{all}}_p\right) + \lambda\, a_p
+$$
 
-  Here Δ means in-group minus out-group, and age is days from the post's date to the end of collection. This is the standard result for fixed-effect Poisson.
-- Contrasts where neither post got any engagement from C carry no information and drop out.
-- **The quantity of interest is exp(β):** how much more (or less) engagement from community C an in-group post gets than a similar out-group post on the same side, at the same exposure.
-- Exposure enters as a covariate, not a fixed offset, because members of C also engage with authors they don't follow (see the note above). That puts γ and δ in the model, so they're estimated from the data.
+- $\alpha_r$ absorbs everything the two posts share: content, topic, stance, and when the pair was found. It is never estimated.
+- $\beta$ is the in-group effect. $\gamma$, $\delta$ and $\lambda$ are estimated from the data.
+- Exposure enters as a covariate, not a fixed offset, because members of $C$ also engage with authors they don't follow. A fixed offset would force $\gamma = 1$.
+
+**What is actually fitted.** Let $n_r = y_{ri} + y_{ro}$ be the contrast's total engagement from $C$. Conditioning on $n_r$ removes $\alpha_r$. What remains is a binomial model of the in-group post's share (the standard result for fixed-effect Poisson):
+
+$$
+y_{ri} \mid n_r \sim \operatorname{Binomial}(n_r,\ \pi_r)
+$$
+
+$$
+\operatorname{logit} \pi_r = \beta + \gamma\, \Delta_r \log\!\left(1 + F^{C}\right) + \delta\, \Delta_r \log\!\left(1 + F^{\text{all}}\right) + \lambda\, \Delta_r a
+$$
+
+In words: only how engagement is *split* between the two posts matters, not how much the pair got in total. Contrasts with $n_r = 0$ carry no information and drop out.
+
+**The quantity of interest** is the rate ratio
+
+$$
+\text{RR} = e^{\beta}
+$$
+
+the in-group post's expected engagement from $C$ divided by the out-group post's, when both authors have the same followers in $C$, the same followers overall, and their posts are the same age. Equivalently, the in-group post's expected share of the pair's engagement at equal exposure is $\pi = \text{RR} / (1 + \text{RR})$:
+
+| $\text{RR} = e^{\beta}$ | In-group share $\pi$ | Reading |
+|---|---|---|
+| 0.5 | 33% | out-group post gets twice the engagement |
+| 1 | 50% | **no in-group difference** |
+| 1.5 | 60% | in-group post gets 50% more |
+| 2 | 67% | in-group post gets twice the engagement |
+
+**Reading the other coefficients.** Each is a log rate ratio per unit difference:
+- $e^{\gamma}$: how much more engagement an author gets from $C$ when they have $e \approx 2.7$ times as many followers in $C$ ($\Delta \log(1 + F^C) = 1$). For example, $\gamma = 0.5$ means $e^{0.5} \approx 1.65$ times as much.
+- $e^{\delta}$: the same for followers overall.
+- $e^{\lambda}$: the change per 30 days of extra age (counts are cumulative, so older posts have had longer to collect engagement).
 
 **Standard errors.** Clustered two ways, by in-group author and by out-group author (authors appear in many contrasts). There are too few communities with real weight to cluster by community, so communities are reported separately instead (below).
 
@@ -85,17 +124,25 @@ No classifier for replies or quotes. Reception is measured from what the data re
 
 **Sample.**
 - **Primary:** PAL–PAL contrasts (`side_pair == "PAL-PAL"`) from communities with at least 100 contrasts.
-- **Per community:** exp(β) for each community with at least 1,000 contrasts.
+- **Per community:** $e^{\beta}$ for each community with at least 1,000 contrasts.
 
 **Robustness** (each reported next to the primary result):
-1. **Exposure-matched:** only contrasts where the two authors' followers in C differ by less than a factor of e (|Δlog(1 + followers_C)| ≤ 1). This relies far less on how the model handles exposure. Without it, the gap between in-group and out-group authors (median 8 vs 113 followers in C) has to be bridged entirely by the model's assumed form.
-2. Exposure modelled flexibly: Δlog(1 + followers_C) as a piecewise-linear spline with knots at its quartiles, built so every term is zero at equal exposure. That keeps exp(β) as the in-group effect at equal exposure. (Dummy bins were dropped before any real-data run: on simulated data, their intercept picked up the exposure gap and reported 3.4 where the truth was 1.0.)
+1. **Exposure-matched:** only contrasts where the two authors' followers in $C$ differ by less than a factor of $e \approx 2.7$:
+
+   $$\left|\Delta_r \log\!\left(1 + F^{C}\right)\right| \le 1$$
+
+   This relies far less on how the model handles exposure. Without it, the gap between in-group and out-group authors (median 106 vs 15 followers in C, across all contrasts) has to be bridged entirely by the model's assumed form.
+2. **Exposure modelled flexibly:** with $x_r = \Delta_r \log(1 + F^C)$, replace $\gamma\, x_r$ by a piecewise-linear spline with knots $\kappa_1, \kappa_2, \kappa_3$ at the quartiles of $x_r$:
+
+   $$s(x) = \theta_0\, x + \sum_{k=1}^{3} \theta_k \left[ (x - \kappa_k)_+ - (-\kappa_k)_+ \right], \qquad (u)_+ = \max(u, 0)$$
+
+   Every term is zero at $x = 0$, so $s(0) = 0$ and $e^{\beta}$ is still the in-group effect at equal exposure. (Dummy bins were dropped before any real-data run: on simulated data, their intercept picked up the exposure gap and reported 3.4 where the truth was 1.0.)
 3. Both stance labels at confidence ≥ 2.
 4. Dropping `short`, `near_duplicate` and `linked` pairs.
 5. ISR–ISR contrasts, as exploratory (see the stance section).
-6. **Opposite-side pairs (PAL–ISR) as a comparison:** the in-group effect when the content is similar but the stance differs. If exp(β) is similar for same-side and opposite-side pairs, the effect is about who the author is, not what they said.
+6. **Opposite-side pairs (PAL–ISR) as a comparison:** the in-group effect when the content is similar but the stance differs. If $e^{\beta}$ is similar for same-side and opposite-side pairs, the effect is about who the author is, not what they said.
 
-**Reading the result.** Report exp(β) with a 95% confidence interval. The headline uses the primary outcome and sample only. Everything else is secondary or robustness and is reported as such, without picking the best-looking one.
+**Reading the result.** Report $e^{\beta}$ with a 95% confidence interval, $e^{\hat\beta \pm 1.96\,\widehat{\text{se}}(\hat\beta)}$. An interval that includes 1 means no detectable in-group difference. The headline uses the primary outcome and sample only. Everything else is secondary or robustness and is reported as such, without picking the best-looking one.
 
 ## Change log
 
@@ -105,4 +152,5 @@ No classifier for replies or quotes. Reception is measured from what the data re
 | 2026-11-08 | Reception definitions fixed (no reply/quote classifier); `reception.py` added. |
 | 2026-11-08 | Model fixed: conditional (fixed-effect) Poisson per contrast, exposure as a covariate, two-way clustered standard errors, robustness list. Written after a pipeline check that printed descriptive in/out means across all pairs, with no stance and no model. That check showed raw counts and per-follower rates pointing in opposite directions, which is why exposure is modelled and an exposure-matched check is required. |
 | 2026-11-08 | Communities: switched from the notebook's top-100k sample to the full active graph (about 1.66M users), before any stance-filtered or modelled results. |
+| 2026-11-09 | Model section reformatted: equations in LaTeX, a notation table, and worked readings of $e^{\beta}$ and the other coefficients. No change to the specification. Age is stated in 30-day units, as `fit_contrasts` has always used (this rescales $\lambda$ only). Corrected a descriptive figure in robustness check 1: median followers in $C$ are 106 (in-group) vs 15 (out-group) across all contrasts; the earlier text had "8 vs 113". |
 | 2026-11-09 | ISR–ISR hand check (`isr_check.py`), set up after the model results were seen: 50 pairs drawn uniformly from all ISR–ISR corpus pairs (seed `isr-pairs-v1`); each post coded ISR / PAL / other, blind to author and community. Reported: share of pairs with both posts truly ISR (Wilson 95% CI), share with a PAL post, and, descriptively, the share weighted by each pair's ISR–ISR contrasts. 18 of the 50 pairs enter the model's contrasts. |
